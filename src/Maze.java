@@ -44,26 +44,41 @@ public class Maze {
     }
 
     //get neighbors in increasing node number order
-//    public List<int[]> getNeighbors(int nodeId){
-//        //get node's coordinates
-//        int x = nodes[nodeId][0];
-//        int y = nodes[nodeId][1];
-//        //empty list to collect valid neighbors
-//        List<int[]> neighbors = new ArrayList<>();
-//
-//        for(int dx = -1; dx <= 1; dx++){
-//            for(int dy =-1; dy <= 1; dy++){
-//                if(dx ==0 && dy ==0) continue; //center = current node
-//
-//                //get the coordinates of the potential neighbor
-//                int nx = x + dx;
-//                int ny = y +dy;
-//
-//                //stay inside grid
-//                if(nx >= 0 && nx <size && ny >= 0 && ny <size){
-//                    int
-//                }
-//            }
-//        }
-//    }
+    public List<int[]> getNeighbors(int nodeId){
+        //get node's coordinates
+        int x = nodes[nodeId][0];
+        int y = nodes[nodeId][1];
+        //empty list to collect valid neighbors
+        List<int[]> neighbors = new ArrayList<>();
+
+        for(int dx = -1; dx <= 1; dx++){
+            for(int dy =-1; dy <= 1; dy++){
+                if(dx ==0 && dy ==0) continue; //center = current node
+
+                //get the coordinates of the potential neighbor
+                int nx = x + dx;
+                int ny = y +dy;
+
+                //stay inside grid
+                if(nx >= 0 && nx <size && ny >= 0 && ny <size){
+                    int neighborId = nx * size +ny;
+
+                    //no barriers
+                    if(!barrierNodes.contains(neighborId)){
+                        int cost_type = (dx != 0 && dy != 0) ? 2 : 1;
+                        // 1 = straight, 2 =diagonal
+                        neighbors.add(new int[]{neighborId, cost_type});
+                    }
+                }
+            }
+        }
+
+        //sort by nodeId
+        neighbors.sort(Comparator.comparingInt(a -> a[0]));
+        return neighbors;
+    }
+
+    public void printMaze(){
+
+    }
 }
