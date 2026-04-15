@@ -79,6 +79,11 @@ public class Maze {
     }
 
     public void printMaze(){
-
+        System.out.println("\nMAZE SETUP");
+        System.out.println("Start  : Node " + startNode +
+                " (x=" + nodes[startNode][0] + ", y=" + nodes[startNode][1] + ")");
+        System.out.println("Goal   : Node " + goalNode +
+                " (x=" + nodes[goalNode][0] + ", y=" + nodes[goalNode][1] + ")");
+        System.out.println("Barriers: " + barrierNodes);
     }
 }
