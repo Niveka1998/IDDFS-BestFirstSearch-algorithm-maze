@@ -64,8 +64,8 @@ public class Main {
             iddfs_paths.add(r1.finalPath != null ? r1.finalPath.size() : 0);
 
             // Best First Search (Chebyshev)
-            BestFirstSearch bfs = new BestFirstSearch(maze, DistanceMetric.OCTILE);
-            SearchResult r2 = bfs.search();
+            BestFirstSearch bfs = new BestFirstSearch(maze);
+            SearchResult r2 = bfs.searchChebyshev();
             printResult("Best First Search (Chebyshev)", r2);
             bfs_times.add(r2.timeCost);
             bfs_paths.add(r2.finalPath != null ? r2.finalPath.size() : 0);
@@ -80,16 +80,15 @@ public class Main {
         System.out.println();
         System.out.println("1. Completeness:");
         System.out.println("   IDDFS      : Complete – always finds a path if one exists.");
-        System.out.println("   BFS (h)    : Complete on finite graphs, but may miss optimal.");
+        System.out.println("   BFS (h)    : Not complete in general, it can get stuck in loops or dead ends if revisited nodes aren't tracked.If visited nodes are tracked, it becomes complete on finite graphs.");
         System.out.println();
         System.out.println("2. Optimality:");
         System.out.println("   IDDFS      : Optimal for unit-cost edges (finds shortest depth path).");
-        System.out.println("   BFS (h)    : Not guaranteed optimal – greedy on heuristic only.");
+        System.out.println("   BFS (h)    : Not guaranteed optimal –  it greedily expands the node closest to the goal using only h(n), ignoring the actual cost g(n) accumulated so far.");
         System.out.println();
         System.out.println("3. Time Complexity:");
         System.out.println("   IDDFS      : O(b^d) per iteration; explores many nodes repeatedly.");
-        System.out.println("   BFS (h)    : Guided by heuristic - usually fewer nodes explored,");
-        System.out.println("               but worst-case still O(b^d).");
+        System.out.println("   BFS (h)    : O(b^m) where m is the max depth of the search space; guided by heuristic, typically far fewer nodes explored.");
         System.out.println();
         System.out.printf( "   Mean time  IDDFS=%.2f  BFS=%.2f minutes%n",
                 mean(iddfs_times), mean(bfs_times));
@@ -136,34 +135,5 @@ public class Main {
             printStats("IDDFS with " + metric, iddfs_times, iddfs_paths);
             printStats("BFS   with " + metric, bfs_times, bfs_paths);
         }
-
-        //cross-metric analysis
-        System.out.println("\n====== TASK 6 METRIC ANALYSIS ======");
-        System.out.println();
-        System.out.println("Octile Distance:");
-        System.out.println("  h = max(|Nx-Gx|, |Ny-Gy|)");
-        System.out.println("  Accounts for diagonal movement. Admissible for 8-directional grids.");
-        System.out.println("  Tends to be the most accurate heuristic here - fewer nodes explored.");
-        System.out.println();
-        System.out.println("Euclidean Distance:");
-        System.out.println("  h = sqrt((Nx-Gx)^2 + (Ny-Gy)^2)");
-        System.out.println("  Straight-line distance. Admissible but can underestimate on grids");
-        System.out.println("  with diagonal moves - slightly more nodes than Octile.");
-        System.out.println();
-        System.out.println("Manhattan Distance:");
-        System.out.println("  h = |Nx-Gx| + |Ny-Gy|");
-        System.out.println("  Only counts horizontal/vertical steps. Overestimates when diagonal");
-        System.out.println("  moves are allowed - Not admissible - may visit more nodes / miss");
-        System.out.println("  optimal path in Best-First Search.");
-        System.out.println();
-        System.out.println("Impact on BFS:");
-        System.out.println("  A tighter (more accurate) heuristic guides BFS to the goal faster,");
-        System.out.println("  reducing time cost and improving path quality.");
-        System.out.println("  Octile ~~ best fit > Euclidean > Manhattan for this 8-dir maze.");
-        System.out.println();
-        System.out.println("Impact on IDDFS:");
-        System.out.println("  IDDFS does not use a heuristic, so the metric has no direct effect.");
-        System.out.println("  Results remain consistent across all three metric runs.");
-
     }
 }
