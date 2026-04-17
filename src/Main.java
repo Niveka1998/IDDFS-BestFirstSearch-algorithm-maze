@@ -80,15 +80,15 @@ public class Main {
         System.out.println();
         System.out.println("1. Completeness:");
         System.out.println("   IDDFS      : Complete – always finds a path if one exists.");
-        System.out.println("   BFS (h)    : Not complete in general, it can get stuck in loops or dead ends if revisited nodes aren't tracked.If visited nodes are tracked, it becomes complete on finite graphs.");
+        System.out.println("   BFS (h)    : Not complete in general, it can get stuck in loops or dead end\ns if revisited nodes aren't tracked.If visited nodes are tracked, it becomes complete on finite graphs.");
         System.out.println();
         System.out.println("2. Optimality:");
         System.out.println("   IDDFS      : Optimal for unit-cost edges (finds shortest depth path).");
-        System.out.println("   BFS (h)    : Not guaranteed optimal –  it greedily expands the node closest to the goal using only h(n), ignoring the actual cost g(n) accumulated so far.");
+        System.out.println("   BFS (h)    : Not guaranteed optimal –  it greedily expands the node closest\n to the goal using only h(n), ignoring the actual cost g(n) accumulated so far.");
         System.out.println();
         System.out.println("3. Time Complexity:");
         System.out.println("   IDDFS      : O(b^d) per iteration; explores many nodes repeatedly.");
-        System.out.println("   BFS (h)    : O(b^m) where m is the max depth of the search space; guided by heuristic, typically far fewer nodes explored.");
+        System.out.println("   BFS (h)    : O(b^m) where m is the max depth of the search space; guided by\n heuristic, typically far fewer nodes explored.");
         System.out.println();
         System.out.printf( "   Mean time  IDDFS=%.2f  BFS=%.2f minutes%n",
                 mean(iddfs_times), mean(bfs_times));
